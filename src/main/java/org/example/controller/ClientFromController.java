@@ -33,26 +33,39 @@ public class ClientFromController {
 
             try {
                 socket = new Socket("localhost",3002);
-                txtAreaClient.appendText("client strated");
+                txtAreaClient.appendText("client strated\n");
 
                 dataInputStream=new DataInputStream(socket.getInputStream());
-                dataOutputStream= new DataOutputStream(socket.getOutputStream());
+                //dataOutputStream= new DataOutputStream(socket.getOutputStream());
 
                 while(!massege.equals("stop")) {
                     massege=dataInputStream.readUTF();
-                    txtAreaClient.appendText("\nserver says: "+massege);
+                    txtAreaClient.appendText("\nserver says: "+massege+"\n");
                 }
                 System.out.println("closed conection");
-                dataOutputStream.close();
+               // dataOutputStream.close();
                 socket.close();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }).start();
+
+
     }
 
     public void btnSendClientOnAction(ActionEvent event) throws IOException {
-        dataOutputStream.writeUTF(txtClient.getText());
-        dataOutputStream.flush();
+        /*dataOutputStream.writeUTF(txtClient.getText());
+        dataOutputStream.flush();*/
+
+        try {
+            DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            String message = txtClient.getText();
+            dataOutputStream.writeUTF(message);
+            dataOutputStream.flush();
+            txtAreaClient.appendText("Client: " + message+"\n");
+            txtClient.clear();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -36,17 +36,17 @@ public class ServerFromController {
             txtAreaServer.appendText("\nserver accept");
 
             DataInputStream dataInputStream =new DataInputStream(socket.getInputStream());
-            DataOutputStream dataOutputStream=new DataOutputStream(socket.getOutputStream());
+            //DataOutputStream dataOutputStream=new DataOutputStream(socket.getOutputStream());
 
 
             while(!massege.equals("stop")) {
                 massege=dataInputStream.readUTF();
-                txtAreaServer.appendText("\n Client says: "+massege);
+                txtAreaServer.appendText("\n Client says: "+massege+"\n");
 
             }
             System.out.println("\nclosed connect");
             dataInputStream.close();
-            dataOutputStream.close();
+            //dataOutputStream.close();
 
             socket.close();
 
@@ -58,7 +58,18 @@ public class ServerFromController {
     }
 
     public void btnSendServerOnAction(ActionEvent event) throws IOException {
-        dataOutputStream.writeUTF(txtServer.getText());
-        dataOutputStream.flush();
+        /*dataOutputStream.writeUTF(txtServer.getText());
+        dataOutputStream.flush();*/
+        try {
+            DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            String msg = txtServer.getText();
+            dataOutputStream.writeUTF(massege);
+            dataOutputStream.flush();
+            txtAreaServer.appendText("Server : " + massege + "\n");
+            txtServer.clear();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
