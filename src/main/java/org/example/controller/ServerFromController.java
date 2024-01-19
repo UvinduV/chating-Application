@@ -63,9 +63,9 @@ public class ServerFromController {
         try {
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
             String msg = txtServer.getText();
-            dataOutputStream.writeUTF(massege);
+            dataOutputStream.writeUTF(msg);
             dataOutputStream.flush();
-            txtAreaServer.appendText("Server : " + massege + "\n");
+            txtAreaServer.appendText("Server : " + msg + "\n");
             txtServer.clear();
 
         } catch (IOException e) {
